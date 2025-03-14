@@ -42,10 +42,10 @@ pipeline {
             steps {
                 script {
                     sh 'pwd && ls -lah'
-                    sh 'cd $WORKSPACE && kubectl apply -v 9 -f k8s/movie-db-deployment.yaml'
-                    sh 'cd $WORKSPACE && kubectl apply -v 9 -f k8s/movie-service-deployment.yaml'
-                    sh 'cd $WORKSPACE && kubectl apply -v 9 -f k8s/cast-service-deployment.yaml'
-                    sh 'cd $WORKSPACE && kubectl apply -v 9 -f k8s/nginx-deployment.yaml'
+                    sh 'kubectl apply -v 9 -f /home/ubuntu/eval-jenkins/Jenkins_devops_exams/movie-db-deployment.yaml'
+                    sh 'kubectl apply -v 9 -f /home/ubuntu/eval-jenkins/Jenkins_devops_exams/movie-service-deployment.yaml'
+                    sh 'kubectl apply -v 9 -f /home/ubuntu/eval-jenkins/Jenkins_devops_exams/cast-service-deployment.yaml'
+                    sh 'kubectl apply -v 9 -f /home/ubuntu/eval-jenkins/Jenkins_devops_exams/nginx-deployment.yaml'
                 }
             }
         }
