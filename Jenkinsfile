@@ -41,10 +41,11 @@ pipeline {
         stage('Deploy to Kubernetes - dev') {
             steps {
                 script {
-                    sh 'kubectl apply -v 9 -f k8s/movie-db-deployment.yaml'
-                    sh 'kubectl apply -v 9 -f k8s/movie-service-deployment.yaml'
-                    sh 'kubectl apply -v 9 -f k8s/cast-service-deployment.yaml'
-                    sh 'kubectl apply -v 9 -f k8s/nginx-deployment.yaml'
+                    sh 'pwd && ls -lah'
+                    sh 'cd $WORKSPACE && kubectl apply -v 9 -f k8s/movie-db-deployment.yaml'
+                    sh 'cd $WORKSPACE && kubectl apply -v 9 -f k8s/movie-service-deployment.yaml'
+                    sh 'cd $WORKSPACE && kubectl apply -v 9 -f k8s/cast-service-deployment.yaml'
+                    sh 'cd $WORKSPACE && kubectl apply -v 9 -f k8s/nginx-deployment.yaml'
                 }
             }
         }
