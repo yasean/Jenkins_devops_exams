@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS = 'dockerhub_credentials'
         REGISTRY = "docker.io/yhniche"
-        IMAGE_TAG = "latest" // Remplace ${GIT_COMMIT} si besoin
+        IMAGE_TAG = "latest"
     }
 
     stages {
@@ -20,7 +20,6 @@ pipeline {
                     sh 'docker-compose build'
                     sh "docker tag jenkins_devops_exams_movie_service:latest $REGISTRY/jenkins_devops_exams_movie_service:$IMAGE_TAG"
                     sh "docker tag jenkins_devops_exams_cast_service:latest $REGISTRY/jenkins_devops_exams_cast_service:$IMAGE_TAG"
-
                 }
             }
         }
@@ -28,13 +27,17 @@ pipeline {
         stage('Push Docker Images') {
             steps {
                 script {
-                    docker.withRegistry('https://registry-1.docker.io/', 'dockerhub_credentials') {
-                        sh "docker push $REGISTRY/jenkins_devops_exams_movie_service:$IMAGE_TAG"
-                        sh "docker push $REGISTRY/jenkins_devops_exams_cast_service:$IMAGE_TAG"
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub_credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        sh """
+                            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                            docker push $REGISTRY/jenkins_devops_exams_movie_service:$IMAGE_TAG
+                            docker push $REGISTRY/jenkins_devops_exams_cast_service:$IMAGE_TAG
+                        """
                     }
                 }
             }
         }
+
         stage('Deploy to Kubernetes - dev') {
             steps {
                 script {
