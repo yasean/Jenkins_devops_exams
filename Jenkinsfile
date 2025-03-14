@@ -25,12 +25,9 @@ pipeline {
         stage('Push Docker Images') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub_credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                        sh """
-                            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-                            docker push $REGISTRY/jenkins_devops_exams_movie_service:latest
-                            docker push $REGISTRY/jenkins_devops_exams_cast_service:latest
-                        """
+                    docker.withRegistry('https://registry-1.docker.io/', 'dockerhub_credentials') {
+                        sh "docker push $REGISTRY/jenkins_devops_exams_movie_service:$IMAGE_TAG"
+                        sh "docker push $REGISTRY/jenkins_devops_exams_cast_service:$IMAGE_TAG"
                     }
                 }
             }
