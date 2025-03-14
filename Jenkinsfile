@@ -24,13 +24,13 @@ pipeline {
             }
         }
 
-        stage('Push Images to DockerHub') {
+        stage('Push Docker Images') {
             steps {
                 script {
-                    // Connexion à DockerHub et push des images
                     docker.withRegistry('https://docker.io', DOCKERHUB_CREDENTIALS) {
-                        sh "docker push ${REGISTRY}/jenkins_devops_exams_movie_service:${IMAGE_TAG}"
-                        sh "docker push ${REGISTRY}/jenkins_devops_exams_cast_service:${IMAGE_TAG}"
+                        sh "docker push ${REGISTRY}/movie-service:${IMAGE_TAG}"
+                        sh "docker push ${REGISTRY}/cast-service:${IMAGE_TAG}"
+                // Ajoute ici d'autres services à push si nécessaire
                     }
                 }
             }
