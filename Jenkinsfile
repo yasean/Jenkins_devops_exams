@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/DataScientest/Jenkins_devops_exams.git'
+                git branch: 'main', url: 'https://github.com/yasean/Jenkins_devops_exams.git'
             }
         }
 
