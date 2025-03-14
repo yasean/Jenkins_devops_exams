@@ -25,16 +25,16 @@ pipeline {
         stage('Push Docker Images') {
             steps {
                 script {
-                    // Connexion à DockerHub avec des commandes shell
                     withCredentials([usernamePassword(credentialsId: 'dockerhub_credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                        sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
-                        sh "docker push ${REGISTRY}/movie-service:${IMAGE_TAG}"
-                        sh "docker push ${REGISTRY}/cast-service:${IMAGE_TAG}"
+                        sh """
+                            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                            docker push $REGISTRY/jenkins_devops_exams_movie_service:$IMAGE_TAG
+                            docker push $REGISTRY/jenkins_devops_exams_cast_service:$IMAGE_TAG
+                        """
                     }
                 }
             }
         }
-
         stage('Deploy to Kubernetes - dev') {
             steps {
                 script {
