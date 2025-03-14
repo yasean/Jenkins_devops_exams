@@ -18,6 +18,9 @@ pipeline {
             steps {
                 script {
                     sh 'docker-compose build'
+                    sh "docker tag jenkins_devops_exams_movie_service:latest $REGISTRY/jenkins_devops_exams_movie_service:$IMAGE_TAG"
+                    sh "docker tag jenkins_devops_exams_cast_service:latest $REGISTRY/jenkins_devops_exams_cast_service:$IMAGE_TAG"
+
                 }
             }
         }
